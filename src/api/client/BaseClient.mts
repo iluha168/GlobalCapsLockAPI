@@ -4,9 +4,9 @@ class GlobalCapsLockEvent extends Event {
 	static eventType = "gcle"
 	state: CapsLockState
 
-	constructor(state: `${CapsLockState}`) {
+	constructor(state: CapsLockState) {
 		super(GlobalCapsLockEvent.eventType)
-		this.state = +state as CapsLockState
+		this.state = state
 	}
 }
 
@@ -47,8 +47,8 @@ export abstract class BaseClient {
 		switch (data) {
 			case "0":
 			case "1":
-				this.globalCapsLock = data
-				this.eventTarget.dispatchEvent(new GlobalCapsLockEvent(data))
+				this.globalCapsLock = +data as CapsLockState
+				this.eventTarget.dispatchEvent(new GlobalCapsLockEvent(this.globalCapsLock))
 				break
 			default:
 				this.onUnknownMessage(data)
