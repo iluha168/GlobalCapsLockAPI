@@ -1,6 +1,6 @@
 import { BaseClient } from "./BaseClient.mts"
 
-export class UserCountEvent extends Event {
+class UserCountEvent extends Event {
 	static eventType = "uce"
 	count: number
 
@@ -24,13 +24,12 @@ export class StatusClient extends BaseClient {
 	}
 
 	addUserCountListener(
-		listener: (event: UserCountEvent) => void,
+		listener: (count: number) => void,
 		options?: boolean | AddEventListenerOptions,
 	): void {
 		this.eventTarget.addEventListener(
 			UserCountEvent.eventType,
-			// @ts-ignore The fired event is always a UserCountEvent
-			listener,
+			(e) => listener((e as UserCountEvent).count),
 			options,
 		)
 	}

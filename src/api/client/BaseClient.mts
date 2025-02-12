@@ -1,6 +1,6 @@
 export type CapsLockState = 0 | 1
 
-export class GlobalCapsLockEvent extends Event {
+class GlobalCapsLockEvent extends Event {
 	static eventType = "gcle"
 	state: CapsLockState
 
@@ -33,13 +33,12 @@ export abstract class BaseClient {
 	}
 
 	addCapsLockListener(
-		listener: (event: GlobalCapsLockEvent) => void,
+		listener: (event: CapsLockState) => void,
 		options?: boolean | AddEventListenerOptions,
 	): void {
 		this.eventTarget.addEventListener(
 			GlobalCapsLockEvent.eventType,
-			// @ts-ignore Assume the fired event always matches
-			listener,
+			(e) => listener((e as GlobalCapsLockEvent).state),
 			options,
 		)
 	}
