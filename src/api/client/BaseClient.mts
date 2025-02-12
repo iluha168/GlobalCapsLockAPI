@@ -46,10 +46,12 @@ export abstract class BaseClient {
 	private onMessage({ data }: MessageEvent): void {
 		switch (data) {
 			case "0":
-			case "1":
-				this.globalCapsLock = +data as CapsLockState
-				this.eventTarget.dispatchEvent(new GlobalCapsLockEvent(this.globalCapsLock))
+			case "1": {
+				const newState = +data as CapsLockState
+				this.eventTarget.dispatchEvent(new GlobalCapsLockEvent(newState))
+				this.globalCapsLock = newState
 				break
+			}
 			default:
 				this.onUnknownMessage(data)
 				break
